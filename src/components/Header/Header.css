@@ -54,3 +54,18 @@
 .theme-toggle-button:hover {
   background-color: var(--bg-primary);
 }
+
+.logout-button {
+  background-color: #dc3545; /* Cor vermelha "perigo" */
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
