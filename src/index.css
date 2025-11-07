@@ -1,13 +1,47 @@
+/*Cores para o MODO CLARO (Default) */
+:root {
+  --bg-primary: #f4f7f6;        /* Fundo principal (body) */
+  --bg-secondary: #ffffff;      /* Fundo de caixas, forms, header */
+  --text-primary: #333333;      /* Texto principal */
+  --text-secondary: #555555;    /* Texto (labels) */
+  --border-color: #e0e0e0;      /* Bordas (header, inputs) */
+  
+  --button-login-bg: #007bff;
+  --button-login-text: #ffffff;
+  --button-login-hover: #0056b3;
+
+  --button-submit-bg: #28a745;
+  --button-submit-text: #ffffff;
+  --button-submit-hover: #218838;
+}
+
+/*Cores para o MODO ESCURO (Quando o <body> tiver a classe 'dark-mode') */
+body.dark-mode {
+  --bg-primary: #121212;        /* Fundo principal (body) */
+  --bg-secondary: #1e1e1e;      /* Fundo de caixas, forms, header */
+  --text-primary: #e0e0e0;      /* Texto principal */
+  --text-secondary: #bbbbbb;    /* Texto (labels) */
+  --border-color: #333333;      /* Bordas (header, inputs) */
+  
+  --button-login-bg: #007bff; /* Pode manter os botões de ação coloridos */
+  --button-login-text: #ffffff;
+  --button-login-hover: #0056b3;
+
+  --button-submit-bg: #28a745;
+  --button-submit-text: #ffffff;
+  --button-submit-hover: #218838;
+}
+
+/*Aplicar a transição de cores de forma suave */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.2s linear, color 0.2s linear;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
