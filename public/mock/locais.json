@@ -1,0 +1,22 @@
+[
+  {
+    "idLocal": "101",
+    "nome": "Sala de Reuniões 101"
+  },
+  {
+    "idLocal": "102",
+    "nome": "Copa - 1º Andar"
+  },
+  {
+    "idLocal": "201",
+    "nome": "Escritório 201 (Ala Norte)"
+  },
+  {
+    "idLocal": "300",
+    "nome": "Banheiro Masculino - 3º Andar"
+  },
+  {
+    "idLocal": "400",
+    "nome": "Manutenção - Almoxarifado"
+  }
+]
