@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'; // Importar nosso hook de a
 
 // ===================================================================
 // Mude esta variável para 'false' quando sua API real estiver pronta
-const MODO_MOCK = true;
+const MODO_MOCK = false;
 // ===================================================================
 
 // Lemos a URL base da nossa API do arquivo .env
@@ -58,15 +58,17 @@ function Login() {
           body: JSON.stringify(dadosLogin), // Envia o JSON com 'idFunci'
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
           throw new Error('Login ou senha inválidos.'); // Mensagem genérica por segurança
         }
         
         // const { token } = await response.json(); 
+        login(data.user);
       }
 
       // SUCESSO! (Mock ou Real)
-      login();
 
     } catch (err) {
       // Erro (Mock ou Real)

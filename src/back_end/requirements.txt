@@ -1,0 +1,8 @@
+Flask
+Flask-CORS
+SQLAlchemy
+argon2-cffi
+flask-argon2
+python-dotenv
+psycopg2-binary
+supabase
