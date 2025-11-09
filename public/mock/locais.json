@@ -18,13 +18,5 @@
     "idLocal": "300",
     "nome": "Banheiro Masc. - 3º Andar",
     "descricao": "Terceiro andar, ao lado da escada de emergência."
-  },
-  {
-    "idLocal": "400",
-    "nome": "Manutenção - Almoxarifado"
-  },
-  {
-    "idLocal": "500",
-    "nome": "teste"
   }
 ]
