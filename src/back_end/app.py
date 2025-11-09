@@ -1,9 +1,19 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import VerificarLogin
+from models import VerificarLogin, carregarLocais
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route('/api/locais', methods=['GET'])
+def locais():
+    locais = carregarLocais()
+
+    if locais is not None and isinstance(locais, list):
+        return jsonify(locais), 200
+    else:
+        return jsonify({"message": "Não foi possivel carregar os locais!"}), 500
+
 @app.route('/api/login', methods=['POST'])
 def login():
     get_credenciais = request.get_json()

@@ -18,5 +18,9 @@
   {
     "idLocal": "400",
     "nome": "Manutenção - Almoxarifado"
+  },
+  {
+    "idLocal": "500",
+    "nome": "teste"
   }
 ]
