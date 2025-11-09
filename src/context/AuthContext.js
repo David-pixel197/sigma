@@ -1,69 +1,59 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const STORAGE_KEY = 'userAuthData';
+// 1. Criar o Contexto
 const AuthContext = createContext();
 
+// 2. Criar o Provedor
 export function AuthProvider({ children }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userData, setUserData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // NOVO ESTADO
-    const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Para o AppContent
+  const navigate = useNavigate();
 
-    // --- EFEITO PARA CARREGAR DADOS DO localStorage NA INICIALIZAÇÃO ---
-    useEffect(() => {
-        const storedData = localStorage.getItem(STORAGE_KEY);
-        if (storedData) {
-            try {
-                const data = JSON.parse(storedData);
-                if (data.isLoggedIn && data.user) {
-                    setIsLoggedIn(true);
-                    setUserData(data.user);
-                }
-            } catch (error) {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-        }
-        setIsLoading(false); // MARCA O CARREGAMENTO COMO CONCLUÍDO
-    }, []);
-    // ------------------------------------------------------------------
+  // Efeito que roda na inicialização, simulando a verificação de um token
+  useEffect(() => {
+    // No MODO_MOCK, apenas dizemos que a verificação terminou.
+    // O usuário começa deslogado.
+    setIsLoading(false);
+  }, []);
 
-    const login = (user) => {
-        // ... (seu código de login, que salva no localStorage) ...
-        if (!user || !user.idFunci) return;
+  /**
+   * Função para LOGAR. Chamada pelo Login.js.
+   * Recebe o objeto do usuário (seja mock ou real)
+   */
+  const login = (userData) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+    navigate('/dashboard'); // Redireciona APÓS o estado ser atualizado
+  };
 
-        setIsLoggedIn(true);
-        setUserData(user);
+  /**
+   * Função para DESLOGAR. Chamada pelo Header.
+   */
+  const logout = () => {
+    setUser(null);
+    setIsLoggedIn(false);
+    navigate('/'); // Redireciona para a home
+  };
 
-        const authData = { isLoggedIn: true, user: user };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(authData));
+  // Valor a ser compartilhado
+  const value = {
+    user,
+    isLoggedIn,
+    isLoading, // Exporta o isLoading para o AppContent
+    login,
+    logout,
+  };
 
-        navigate('/dashboard'); 
-    };
-
-    const logout = () => {
-        // ... (seu código de logout, que limpa o localStorage) ...
-        setIsLoggedIn(false);
-        setUserData(null);
-        localStorage.removeItem(STORAGE_KEY);
-        navigate('/'); 
-    };
-
-    const value = {
-        isLoggedIn,
-        userData,
-        login,
-        logout,
-        isLoading, // EXPÕE O NOVO ESTADO
-    };
-
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
+// 3. Hook customizado para facilitar o uso
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-// useNavigate não é mais necessário aqui, o AuthContext cuida disso
 import { useAuth } from '../../context/AuthContext'; // Importar nosso hook de autenticação
 
 // ===================================================================
 // Mude esta variável para 'false' quando sua API real estiver pronta
-const MODO_MOCK = false;
+const MODO_MOCK = true;
 // ===================================================================
 
 // Lemos a URL base da nossa API do arquivo .env
@@ -13,17 +12,16 @@ const API_BASE_URL = process.env.REACT_APP_API_URL;
 function Login() {
   
   // --- ESTADOS DO FORMULÁRIO ---
-  // O estado interno ainda se chama 'email', pois é o que o <input> representa
   const [email, setEmail] = useState(''); 
   const [senha, setSenha] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // Para o botão "Mostrar Senha"
+  const [showPassword, setShowPassword] = useState(false);
 
   // --- ESTADOS DE FEEDBACK DE ENVIO (POST) ---
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
   // --- CONTEXTO DE AUTENTICAÇÃO ---
-  const { login } = useAuth(); // Pegamos a função 'login' do nosso cérebro global
+  const { login } = useAuth(); // Pegamos a função 'login'
 
   /**
    * Função chamada quando o formulário é enviado
@@ -33,42 +31,46 @@ function Login() {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    // Montamos o JSON com a chave 'idFunci', exatamente como o back-end espera.
     const dadosLogin = { 
-      idFunci: email, // O valor do estado 'email' é enviado na chave 'idFunci'
+      idFunci: email, 
       senha: senha 
     };
 
     try {
       if (MODO_MOCK) {
-        // --- MODO MOCK (Simulação) ---
-        console.log('MODO MOCK: Autenticando...', dadosLogin); // Agora mostrará 'idFunci'
+        // --- MODO MOCK (CORRIGIDO) ---
+        console.log('MODO MOCK: Autenticando...', dadosLogin);
         await new Promise(resolve => setTimeout(resolve, 1000));
-        console.log('MODO MOCK: Autenticado com sucesso.');
+        
+        // 1. Busca o usuário mockado
+        const response = await fetch('/mock/me.json');
+        if (!response.ok) throw new Error('Arquivo mock/me.json não encontrado.');
+        const user = await response.json();
+        
+        // 2. Chama a função login() do Contexto com o usuário mockado
+        login(user);
 
       } else {
-        // --- MODO REAL (Quando o Back-end estiver pronto) ---
+        // --- MODO REAL (Corrigido para segurança) ---
         const urlApiReal = `${API_BASE_URL}/login`;
         
         const response = await fetch(urlApiReal, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(dadosLogin), // Envia o JSON com 'idFunci'
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dadosLogin),
         });
 
-        const data = await response.json();
-
+        // 1. Checa o erro ANTES de tentar ler o .json()
         if (!response.ok) {
-          throw new Error('Login ou senha inválidos.'); // Mensagem genérica por segurança
+          throw new Error('Login ou senha inválidos.'); 
         }
         
-        // const { token } = await response.json(); 
+        // 2. Se a resposta for OK, lê os dados
+        const data = await response.json();
+        
+        // 3. Chama o login com o usuário (data.user)
         login(data.user);
       }
-
-      // SUCESSO! (Mock ou Real)
 
     } catch (err) {
       // Erro (Mock ou Real)
@@ -81,17 +83,16 @@ function Login() {
     }
   }
 
-  // --- RENDERIZAÇÃO ---
+  // --- RENDERIZAÇÃO (Seu JSX está perfeito e não foi alterado) ---
   return (
     <div className="page-container">
       <form className="chamado-form" onSubmit={handleSubmit}>
         <h1>Login de Funcionário</h1>
         
         <div className="form-group">
-          {/* A label continua "Email" para o usuário */}
           <label htmlFor="email">Email / ID do Funcionário</label> 
           <input 
-            type="email" // O 'type' email ajuda na validação/teclado mobile
+            type="email"
             id="email" 
             required
             value={email}

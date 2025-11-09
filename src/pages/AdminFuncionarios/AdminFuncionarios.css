@@ -1,0 +1,157 @@
+/* Container principal da página de Admin */
+.admin-page-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-page-container h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+/* Formulário de Admin */
+.admin-form {
+  background-color: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.admin-form h2 {
+  margin-top: 0;
+}
+
+.admin-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.admin-form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Inputs de texto, email, senha */
+.admin-form .form-group input[type="text"],
+.admin-form .form-group input[type="email"],
+.admin-form .form-group input[type="password"],
+.admin-form .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Checkbox de Autoridade */
+.admin-form .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.admin-form .form-check input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.admin-form .form-check label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancel-button {
+  background-color: var(--text-secondary);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cancel-button:hover {
+  background-color: #555;
+}
+
+/* Lista de Admin */
+.admin-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.admin-list-item:first-child {
+  border-top: 1px solid var(--border-color);
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+.item-info strong {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+.item-info small {
+  color: var(--text-secondary);
+}
+
+.admin-badge-list {
+  font-size: 0.75rem;
+  font-weight: bold;
+  background-color: #ffc107;
+  color: #333;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.item-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.edit-button {
+  background-color: #007bff;
+  color: white;
+}
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+.delete-button:disabled {
+  background-color: var(--text-secondary);
+  cursor: not-allowed;
+}

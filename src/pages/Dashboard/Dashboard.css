@@ -1,0 +1,263 @@
+/* Container principal do Dashboard */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  /* Remove o page-container para usar a largura total */
+}
+
+/* Cabeçalho (Olá, [Usuário] + Botões Admin) */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-message {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.admin-badge {
+  font-size: 0.8rem;
+  font-weight: bold;
+  background-color: #ffc107; /* Amarelo */
+  color: #333;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-button {
+  background-color: var(--button-login-bg);
+  color: var(--button-login-text);
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+}
+.admin-button:hover {
+  background-color: var(--button-login-hover);
+}
+
+/* Container dos Filtros */
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filtro-grupo label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.filtro-grupo select {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Lista de Chamados */
+.chamado-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+/* Card Individual */
+.chamado-card {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Status do Card (borda esquerda) */
+.chamado-card.status-aberto {
+  border-left-color: #dc3545; /* Vermelho */
+}
+.chamado-card.status-fechado {
+  border-left-color: #28a745; /* Verde */
+}
+
+/* Cabeçalho do Card (resumo) */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+}
+
+.card-info-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.info-local {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.info-data {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.info-status {
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.info-status.aberto {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+.info-status.fechado {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.expand-button {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.expand-button:hover {
+  background-color: var(--bg-primary);
+}
+
+/* Corpo do Card (Detalhes) */
+.card-body {
+  padding: 0 1.5rem 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+.card-body p {
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+  white-space: pre-wrap; /* Preserva quebras de linha na descrição */
+}
+
+/* Rodapé do Card (Ações) */
+.card-footer {
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  /* ATUALIZAÇÃO: Flexbox para alinhar botões */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.atribuicao-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.atribuir-select {
+  padding: 0.4rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.atribuir-button {
+  background: none;
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.atribuir-button:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+.atribuir-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- NOVO: Botão Fechar/Reabrir --- */
+.toggle-status-button {
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+.toggle-status-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botão para FECHAR (vermelho) */
+.toggle-status-button.fechado {
+  background-color: var(--button-submit-bg); /* Verde */
+  color: var(--button-submit-text);
+}
+.toggle-status-button.fechado:hover:not(:disabled) {
+  background-color: var(--button-submit-hover);
+}
+
+/* Botão para REABRIR (verde) */
+.toggle-status-button.aberto {
+  background-color: #dc3545; /* Vermelho */
+  color: #ffffff;
+}
+.toggle-status-button.aberto:hover:not(:disabled) {
+  background-color: #c82333;
+}

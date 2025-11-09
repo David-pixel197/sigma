@@ -1,22 +1,22 @@
 [
   {
     "idLocal": "101",
-    "nome": "Sala de Reuniões 101"
+    "nome": "Sala de Reuniões 101",
+    "descricao": "Primeiro andar, ala leste. Ao lado da recepção."
   },
   {
     "idLocal": "102",
-    "nome": "Copa - 1º Andar"
+    "nome": "Copa - 1º Andar",
+    "descricao": "Primeiro andar, fundos, ao lado do elevador de carga."
   },
   {
     "idLocal": "201",
-    "nome": "Escritório 201 (Ala Norte)"
+    "nome": "Escritório 201 (Ala Norte)",
+    "descricao": "Segundo andar, ala norte. Sala grande de open-office."
   },
   {
     "idLocal": "300",
-    "nome": "Banheiro Masculino - 3º Andar"
-  },
-  {
-    "idLocal": "400",
-    "nome": "Manutenção - Almoxarifado"
+    "nome": "Banheiro Masc. - 3º Andar",
+    "descricao": "Terceiro andar, ao lado da escada de emergência."
   }
 ]

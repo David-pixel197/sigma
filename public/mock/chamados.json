@@ -1,0 +1,35 @@
+[
+  {
+    "idChamado": "c001",
+    "descricao": "O projetor da sala 101 não está ligando. A luz fica piscando em vermelho e não dá sinal de vídeo. Já tentamos reiniciar e trocar o cabo HDMI.",
+    "dataAbertura": "2023-10-28",
+    "horaAbertura": "09:15:00",
+    "dataFechamento": null,
+    "horaFechamento": null,
+    "aberto": true,
+    "fk_Local_idLocal": "101",
+    "fk_Funcionario_idFunc": "f123"
+  },
+  {
+    "idChamado": "c002",
+    "descricao": "A máquina de café da copa está vazando água pela parte de baixo. Criou uma poça no chão.",
+    "dataAbertura": "2023-10-28",
+    "horaAbertura": "10:30:00",
+    "dataFechamento": null,
+    "horaFechamento": null,
+    "aberto": true,
+    "fk_Local_idLocal": "102",
+    "fk_Funcionario_idFunc": null
+  },
+  {
+    "idChamado": "c003",
+    "descricao": "A porta do armário 5A do banheiro do 3º andar está com a dobradiça quebrada e não fecha.",
+    "dataAbertura": "2023-10-27",
+    "horaAbertura": "14:00:00",
+    "dataFechamento": "2023-10-27",
+    "horaFechamento": "16:00:00",
+    "aberto": false,
+    "fk_Local_idLocal": "300",
+    "fk_Funcionario_idFunc": "f456"
+  }
+]
