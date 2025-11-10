@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './AdminLocais.css'; // Usaremos um CSS separado (mas parecido)
 
 // ===================================================================
-const MODO_MOCK = true;
+const MODO_MOCK = process.env.REACT_APP_MODO_MOCK === 'true';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 // ===================================================================
 

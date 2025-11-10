@@ -5,7 +5,7 @@ import './Dashboard.css'; // Importa os estilos
 
 // ===================================================================
 // CONFIGURAÇÃO
-const MODO_MOCK = true;
+const MODO_MOCK = process.env.REACT_APP_MODO_MOCK === 'true';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 // ===================================================================
 

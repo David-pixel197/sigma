@@ -1,14 +1,17 @@
 [
   {
-    "idFunc": "f123",
-    "nome": "David (Admin)"
+    "idFunc": "david@empresa.com",
+    "nome": "David (Admin)",
+    "autoridade": true
   },
   {
-    "idFunc": "f456",
-    "nome": "Ana Supervisora"
+    "idFunc": "ana@empresa.com",
+    "nome": "Ana Supervisora",
+    "autoridade": true
   },
   {
-    "idFunc": "f789",
-    "nome": "Bruno Técnico"
+    "idFunc": "bruno@empresa.com",
+    "nome": "Bruno Técnico",
+    "autoridade": false
   }
 ]

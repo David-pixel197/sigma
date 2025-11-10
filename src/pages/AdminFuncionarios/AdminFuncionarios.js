@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import './AdminFuncionarios.css'; // Estilos para esta página
 
 // ===================================================================
-const MODO_MOCK = true;
+const MODO_MOCK = process.env.REACT_APP_MODO_MOCK === 'true';
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 // ===================================================================
 
