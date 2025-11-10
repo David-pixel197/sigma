@@ -284,12 +284,15 @@ function Dashboard() {
             chamado={chamado}
             local={getLocal(chamado.fk_Local_idLocal)}
             funcionarios={funcionarios}
+            // --- MUDANÇA AQUI ---
+            // Passamos o 'user' logado para o card poder tomar decisões
             user={user}
+            // --- FIM DA MUDANÇA ---
             isExpanded={expandedCardId === chamado.idChamado}
             onToggleExpand={() => handleToggleExpand(chamado.idChamado)}
             onAtribuir={handleAtribuir}
-            onToggleAberto={handleToggleAberto} // Prop nova
-            isUpdating={updatingChamadoId === chamado.idChamado} // Prop nova
+            onToggleAberto={handleToggleAberto}
+            isUpdating={updatingChamadoId === chamado.idChamado}
           />
         ))}
       </div>
@@ -308,8 +311,8 @@ function ChamadoCard({
   isExpanded,
   onToggleExpand,
   onAtribuir,
-  onToggleAberto, // Prop nova
-  isUpdating, // Prop nova
+  onToggleAberto,
+  isUpdating,
 }) {
   const {
     idChamado,
@@ -352,6 +355,13 @@ function ChamadoCard({
   const handleToggleClick = () => {
     onToggleAberto(chamado);
   };
+
+  // --- MUDANÇA AQUI ---
+  // Verifica se o usuário logado pode alterar o status do chamado.
+  // Regra: Ele pode se for admin (autoridade=true) OU
+  // se o chamado estiver atribuído a ele (e não for nulo).
+  const podeAlterarStatus = user?.autoridade || (fk_Funcionario_idFunc === user?.idFunc && fk_Funcionario_idFunc !== null);
+  // --- FIM DA MUDANÇA ---
 
   return (
     <div className={`chamado-card ${aberto ? 'status-aberto' : 'status-fechado'}`}>
@@ -414,14 +424,18 @@ function ChamadoCard({
           )}
         </div>
 
-        {/* --- NOVO: Botão Fechar/Reabrir --- */}
-        <button
-          className={`toggle-status-button ${aberto ? 'fechado' : 'aberto'}`}
-          onClick={handleToggleClick}
-          disabled={isUpdating}
-        >
-          {isUpdating ? 'Atualizando...' : (aberto ? 'Fechar Chamado' : 'Reabrir Chamado')}
-        </button>
+        {/* --- MUDANÇA AQUI: Botão Fechar/Reabrir (com lógica de permissão) --- */}
+        {/* O botão só é renderizado se o usuário tiver permissão */}
+        {podeAlterarStatus && (
+          <button
+            className={`toggle-status-button ${aberto ? 'fechado' : 'aberto'}`}
+            onClick={handleToggleClick}
+            disabled={isUpdating} // Desabilita apenas enquanto está atualizando
+          >
+            {isUpdating ? 'Atualizando...' : (aberto ? 'Fechar Chamado' : 'Reabrir Chamado')}
+          </button>
+        )}
+        {/* --- FIM DA MUDANÇA --- */}
 
       </div>
     </div>

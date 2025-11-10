@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // ===================================================================
 // CONFIGURAÇÃO
 // Mude esta variável para 'false' quando sua API real estiver pronta
-const MODO_MOCK = false;
+const MODO_MOCK = process.env.REACT_APP_MODO_MOCK === 'true';
 // URL base da API (lida do arquivo .env na raiz do projeto)
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 // ===================================================================
