@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext'; // Importar nosso hook de a
 
 // ===================================================================
 // Mude esta variável para 'false' quando sua API real estiver pronta
-const MODO_MOCK = true;
+const MODO_MOCK = false;
 // ===================================================================
 
 // Lemos a URL base da nossa API do arquivo .env
