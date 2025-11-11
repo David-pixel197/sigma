@@ -1,4 +1,5 @@
 import os
+import datetime
 from dotenv import load_dotenv
 from pathlib import Path
 from supabase import create_client, Client
@@ -18,6 +19,7 @@ print("banco de dados carregado.")
 
 TABELA_FUNCIONARIOS = 'Funcionario'
 TABELA_LOCAIS = 'Local'
+TABELA_CHAMADOS = 'Chamado'
 
 def adicionar_usuario_teste(id_funci, nome, senha, getBool):
     response = supabase.table(TABELA_FUNCIONARIOS).select('idFunci').eq('idFunci', id_funci).limit(1).execute()
@@ -62,6 +64,43 @@ def VerificarLogin(id_funci, senha):
         if argon2.check_password_hash(cripto_senha, senha) == True:
             return response.data[0]
         else: return None
-    else: return None  
+    else: return None
+
+def criar_id_personalizado(ultimo_id):
+    if not ultimo_id:
+        return 'c001'
+    id_atual = int(ultimo_id[1:])
+    id = id_atual+1
+    novoID = f'c{id:03d}'
+    return novoID
+
+
+def adicionarChamado(id_local, descricao):
+    response = supabase.table(TABELA_LOCAIS).select('idLocal').eq('idLocal', id_local).limit(1).execute()
+    if len(response.data) > 0:
+        response_ultimo = supabase.table(TABELA_CHAMADOS).select('idChamado').order('idChamado', desc=True).limit(1).execute()
+        
+        ultimo_id = None
+        if response_ultimo.data:
+            ultimo_id = response_ultimo.data[0]['idChamado']
+        id = criar_id_personalizado(ultimo_id)
+
+        data_hora_atual = datetime.datetime.now()
+        data = data_hora_atual.date().isoformat()
+        hora = data_hora_atual.time().isoformat()
+        dados_insert = {
+            'idChamado': id,
+            'descricao': descricao,
+            'dataAbertura': data,
+            'dataFechamento': None,
+            'horaAbertura': hora,
+            'horaFechamento': None,
+            'aberto': True,
+            'fk_Local_idLocal': id_local,
+            'fk_Funcionario_idFunci': None
+        }
+        supabase.table(TABELA_CHAMADOS).insert(dados_insert, count=None).execute()
+        print(f'O chamado foi adicionado')
+        return True
 
 #if __name__=='__main__':

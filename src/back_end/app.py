@@ -1,9 +1,27 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import VerificarLogin, carregarLocais
+from models import VerificarLogin, carregarLocais, adicionarChamado
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route('/api/chamados', methods=['POST'])
+def chamados():
+    get_chamado = request.get_json()
+    if not get_chamado or 'idLocal' not in get_chamado or 'descricao' not in get_chamado:
+        return jsonify({'message': 'Local e descrição é obrigatório!'})
+    id_local = get_chamado['idLocal']
+    descricao = get_chamado['descricao']
+
+    try:
+        chamado = adicionarChamado(id_local, descricao)
+        if chamado == True:
+            return jsonify({"message": "Chamado adicionado, aguarde..."}), 201
+        else: return jsonify({"message": "Erro, não foi possivel adicionar o chamado!"}), 401
+
+    except Exception as e:
+        print(f"Erro no processamento do chamdado: {e}")
+        return jsonify({"message": "Erro interno do servidor."}), 500
 
 @app.route('/api/locais', methods=['GET'])
 def locais():
