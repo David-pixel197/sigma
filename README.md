@@ -93,7 +93,7 @@ Para que o front-end (React) funcione corretamente no "Modo Real" (`MODO_MOCK = 
     O objeto do usuário (o mesmo do `POST /api/login`).
     ```json
     {
-      "idFunc": "f123",
+      "idFunci": "f123",
       "nome": "David (Admin)",
       "email": "david@empresa.com",
       "autoridade": true
