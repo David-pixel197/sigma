@@ -21,19 +21,70 @@ TABELA_FUNCIONARIOS = 'Funcionario'
 TABELA_LOCAIS = 'Local'
 TABELA_CHAMADOS = 'Chamado'
 
-def adicionar_usuario_teste(id_funci, nome, senha, getBool):
+def atualizarFuncionario(id_funci, dados_atualizados):
+    dados_update = {}
+    get_campos = {'nome', 'email', 'autoridade'}
+
+    for campo in get_campos:
+        if campo in dados_atualizados and dados_atualizados[campo] is not None:
+            dados_update[campo] = dados_atualizados[campo]
+    
+    senha = dados_atualizados.get('senha')
+    if senha:
+        if isinstance(senha, str) and senha.strip() != "":
+            try:
+                cripto_senha = argon2.generate_password_hash(senha)
+                dados_update['senha'] = cripto_senha
+            except Exception as e:
+                print('Falha ao encriptar a senha, verifique o codigo!')
+                return None
+    
+    if not dados_update: 
+        print(f'Nenhuma informação válida fornecida para atualizar o funcionário {id_funci}.')
+        try:
+             response = supabase.table(TABELA_FUNCIONARIOS).select('*').eq('idFunci', id_funci).limit(1).execute()
+             return response.data[0] if response.data else None
+        except Exception:
+             return None
+    
+    try:
+        response = supabase.table(TABELA_FUNCIONARIOS).update(dados_update).eq('idFunci', id_funci).execute()
+        if response.data:
+            print(f'As informações do usuario {id_funci} foi atualizada no banco de dados!')
+            return response.data[0]
+    except Exception as e:
+        print('Falha ao editar funcionario!')
+        return None
+
+def criar_id_personalizado_funci(ultimo_id):
+    if not ultimo_id:
+        return 'f001'
+    id_atual = int(ultimo_id[1:])
+    id = id_atual+1
+    novoID = f'f{id:03d}'
+    return novoID
+
+def adicionar_usuario(email, nome, senha, getBool):
+    response_ultimo = supabase.table(TABELA_FUNCIONARIOS).select('idFunci').order('idFunci', desc=True).limit(1).execute() 
+    ultimo_id = None
+    if response_ultimo.data:
+        ultimo_id = response_ultimo.data[0]['idFunci']
+    id_funci = criar_id_personalizado_chamado(ultimo_id)
+
     response = supabase.table(TABELA_FUNCIONARIOS).select('idFunci').eq('idFunci', id_funci).limit(1).execute()
     if len(response.data) > 0:
         return print(f"Usuário '{id_funci}' já existe no banco de dados.")
     cripto_senha = argon2.generate_password_hash(senha)
     dados_insert = {
         'idFunci': id_funci, 
+        'email': email, 
         'nome': nome, 
         'senha': cripto_senha,
         'autoridade': getBool
     }
-    supabase.table(TABELA_FUNCIONARIOS).insert(dados_insert, count=None).execute()
-    print(f"Usuário '{id_funci}' foi adicionado no banco de dados.")
+    return_ = supabase.table(TABELA_FUNCIONARIOS).insert(dados_insert, count=None).execute()
+    print(f"Usuário '{nome}' foi adicionado no banco de dados.")
+    return True
 
 def adicionarLocais(id_local, nome, descricao):
     response = supabase.table(TABELA_LOCAIS).select('idLocal').eq('idLocal', id_local).limit(1).execute()
@@ -47,17 +98,8 @@ def adicionarLocais(id_local, nome, descricao):
     supabase.table(TABELA_LOCAIS).insert(dados_insert, count=None).execute()
     print(f'Local {nome}[{id_local}] foi adicionado no banco de dados')
 
-def carregarLocais():
-    try:
-        response = supabase.table(TABELA_LOCAIS).select('*').execute()
-        return response.data
-    except Exception as e:
-        print('Erro ao carregar os locais')
-        return []
-
-
-def VerificarLogin(id_funci, senha):
-    response = supabase.table(TABELA_FUNCIONARIOS).select('*').eq('idFunci', id_funci).limit(1).execute()
+def VerificarLogin(email, senha):
+    response = supabase.table(TABELA_FUNCIONARIOS).select('*').eq('email', email).limit(1).execute()
     if len(response.data) > 0:
         funcionario = response.data[0]
         cripto_senha = funcionario.get('senha')
@@ -66,7 +108,7 @@ def VerificarLogin(id_funci, senha):
         else: return None
     else: return None
 
-def criar_id_personalizado(ultimo_id):
+def criar_id_personalizado_chamado(ultimo_id):
     if not ultimo_id:
         return 'c001'
     id_atual = int(ultimo_id[1:])
@@ -83,7 +125,7 @@ def adicionarChamado(id_local, descricao):
         ultimo_id = None
         if response_ultimo.data:
             ultimo_id = response_ultimo.data[0]['idChamado']
-        id = criar_id_personalizado(ultimo_id)
+        id = criar_id_personalizado_chamado(ultimo_id)
 
         data_hora_atual = datetime.datetime.now()
         data = data_hora_atual.date().isoformat()
@@ -103,4 +145,29 @@ def adicionarChamado(id_local, descricao):
         print(f'O chamado foi adicionado')
         return True
 
+def carregarChamados():
+    try:
+        response = supabase.table(TABELA_CHAMADOS).select('*').execute()
+        return response.data
+    except Exception as e:
+        print('Erro ao carregar os chamados')
+        return []
+
+def carregarLocais():
+    try:
+        response = supabase.table(TABELA_LOCAIS).select('*').execute()
+        return response.data
+    except Exception as e:
+        print('Erro ao carregar os locais')
+        return []
+
+def carregarFuncionarios():
+    try:
+        response = supabase.table(TABELA_FUNCIONARIOS).select('*').execute()
+        return response.data
+    except Exception as e:
+        print('Erro ao carregar os funcionarios!')
+        return []
+
 #if __name__=='__main__':
+    #adicionar_usuario_teste('gabriel.izidoro@sigma.com', 'Gabriel', 'Fatec123', True)

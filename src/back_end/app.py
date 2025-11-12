@@ -1,9 +1,58 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import VerificarLogin, carregarLocais, adicionarChamado
+from models import VerificarLogin, carregarLocais, adicionarChamado, carregarChamados, carregarFuncionarios, atualizarFuncionario, adicionar_usuario
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route('/api/funcionarios', methods=['POST'])
+def criarFunci():
+    get_credenciais = request.get_json()
+    if not get_credenciais or 'nome' not in get_credenciais or 'email' not in get_credenciais or 'senha' not in get_credenciais or 'autoridade' not in get_credenciais:
+        return jsonify({'message': 'Preencha todos os campos!'})
+    nome = get_credenciais['nome']
+    email = get_credenciais['email']
+    senha = get_credenciais['senha']
+    autoridade = get_credenciais['autoridade']
+    try:
+        funci = adicionar_usuario(email, nome, senha, autoridade)
+        if funci == True:
+            return jsonify({"message": "Usuário criado com sucesso!"}), 201
+        else: return jsonify({"message": "Erro, não foi possivel adicionar o usuário!"}), 401
+
+    except Exception as e:
+        print(f"Erro no processamento do usuário: {e}")
+        return jsonify({"message": "Erro interno do servidor."}), 500
+
+@app.route('/api/funcionarios/<string:idFunc>', methods=['PUT'])
+def att_Funcionario(idFunc):
+    get_funci = request.get_json()
+    if not get_funci:
+        return jsonify({"message": "Nenhuma informação foi recebida"}), 400
+
+    try:
+        update_funci = atualizarFuncionario(idFunc, get_funci)
+        if update_funci:
+           return jsonify(update_funci), 200 
+        else: return jsonify({'message': 'Erro ao atualizar o funcionario!'}), 400 
+    except Exception as e:
+        return jsonify({'message': 'Erro ao atualizar o funcionario!'}), 400 
+
+@app.route('/api/funcionarios', methods=['GET'])
+def get_funcionarios():
+    funcionarios = carregarFuncionarios()
+
+    if funcionarios is not None and isinstance(funcionarios, list):
+        return jsonify(funcionarios), 200
+    else: return jsonify({"message": "Não foi possivel carregar os funcionarios!"}), 500
+
+@app.route('/api/chamados', methods=['GET'])
+def get_chamados():
+    chamados = carregarChamados()
+
+    if chamados is not None and isinstance(chamados, list):
+        return jsonify(chamados), 200
+    else: return jsonify({"message": "Não foi possivel carregar os chamados!"}), 500
 
 @app.route('/api/chamados', methods=['POST'])
 def chamados():
@@ -48,12 +97,13 @@ def login():
                 "isAuthenticated": True,
                 "user": {
                     "idFunci": funcionario['idFunci'],
+                    "email": funcionario['email'],
                     "nome": funcionario.get('nome'), 
                     "autoridade": funcionario.get('autoridade')
                 }
             }), 200
         else:
-            return jsonify({"message": "ID do Funcionário ou senha inválidos."}), 401
+            return jsonify({"message": "email do Funcionário ou senha inválidos."}), 401
             
     except Exception as e:
         print(f"Erro no processamento do login: {e}")

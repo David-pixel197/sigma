@@ -90,7 +90,7 @@ function Login() {
         <h1>Login de Funcionário</h1>
         
         <div className="form-group">
-          <label htmlFor="email">Email / ID do Funcionário</label> 
+          <label htmlFor="email">Email</label> 
           <input 
             type="email"
             id="email" 

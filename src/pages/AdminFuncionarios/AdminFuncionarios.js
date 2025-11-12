@@ -9,7 +9,7 @@ const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 // Estado inicial do formulário (para limpar)
 const formInicial = {
-  idFunc: null, // Usado apenas para edição
+  idFunci: null, // Usado apenas para edição
   nome: '',
   email: '',
   senha: '',
@@ -67,7 +67,7 @@ function AdminFuncionarios() {
     const metodo = isEditing ? 'PUT' : 'POST';
     let url = `${API_BASE_URL}/funcionarios`;
     if (isEditing) {
-      url += `/${formData.idFunc}`;
+      url += `/${formData.idFunci}`;
     }
 
     try {
@@ -77,11 +77,11 @@ function AdminFuncionarios() {
           // Lógica de ATUALIZAR (PUT)
           console.log('MOCK PUT:', formData);
           setFuncionarios(prev =>
-            prev.map(f => (f.idFunc === formData.idFunc ? { ...f, ...formData } : f))
+            prev.map(f => (f.idFunci === formData.idFunci ? { ...f, ...formData } : f))
           );
         } else {
           // Lógica de CRIAR (POST)
-          const novoFunc = { ...formData, idFunc: `f${Math.random().toString(36).substr(2, 9)}` }; // Gera ID falso
+          const novoFunc = { ...formData, idFunci: `f${Math.random().toString(36).substr(2, 9)}` }; // Gera ID falso
           console.log('MOCK POST:', novoFunc);
           setFuncionarios(prev => [...prev, novoFunc]);
         }
@@ -96,7 +96,7 @@ function AdminFuncionarios() {
         const data = await response.json();
         
         if (isEditing) {
-          setFuncionarios(prev => prev.map(f => (f.idFunc === data.idFunc ? data : f)));
+          setFuncionarios(prev => prev.map(f => (f.idFunci === data.idFunci ? data : f)));
         } else {
           setFuncionarios(prev => [...prev, data]);
         }
