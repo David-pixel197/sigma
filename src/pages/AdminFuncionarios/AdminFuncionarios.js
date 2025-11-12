@@ -123,8 +123,8 @@ function AdminFuncionarios() {
     setSubmitError(null);
   };
 
-  const handleDelete = async (idFunc) => {
-    if (idFunc === user?.idFunc) {
+  const handleDelete = async (idFunci) => {
+    if (idFunci === user?.idFunc) {
       alert('Você não pode deletar a si mesmo.');
       return;
     }
@@ -135,14 +135,14 @@ function AdminFuncionarios() {
     try {
       if (MODO_MOCK) {
         await new Promise(res => setTimeout(res, 500)); // Simula rede
-        console.log('MOCK DELETE:', idFunc);
-        setFuncionarios(prev => prev.filter(f => f.idFunc !== idFunc));
+        console.log('MOCK DELETE:', idFunci);
+        setFuncionarios(prev => prev.filter(f => f.idFunci !== idFunci));
       } else {
         // --- MODO REAL ---
-        const url = `${API_BASE_URL}/funcionarios/${idFunc}`;
+        const url = `${API_BASE_URL}/funcionarios/${idFunci}`;
         const response = await fetch(url, { method: 'DELETE' });
         if (!response.ok) throw new Error('Falha ao deletar funcionário.');
-        setFuncionarios(prev => prev.filter(f => f.idFunc !== idFunc));
+        setFuncionarios(prev => prev.filter(f => f.idFunci !== idFunci));
       }
     } catch (err) {
       alert(err.message);
@@ -195,14 +195,14 @@ function AdminFuncionarios() {
       <h2>Funcionários Existentes</h2>
       <ul className="admin-list">
         {funcionarios.map(func => (
-          <li key={func.idFunc} className="admin-list-item">
+          <li key={func.idFunci} className="admin-list-item">
             <div className="item-info">
-              <strong>{func.nome}</strong> {func.idFunc === user?.idFunc && '(Você)'} {func.autoridade && <span className="admin-badge-list">Autoridade</span>}
+              <strong>{func.nome}</strong> {func.idFunci === user?.idFunci && '(Você)'} {func.autoridade && <span className="admin-badge-list">Autoridade</span>}
               <small>{func.email}</small>
             </div>
             <div className="item-actions">
               <button className="edit-button" onClick={() => handleEdit(func)}>Editar</button>
-              <button className="delete-button" onClick={() => handleDelete(func.idFunc)} disabled={func.idFunc === user?.idFunc}>Deletar</button>
+              <button className="delete-button" onClick={() => handleDelete(func.idFunci)} disabled={func.idFunci === user?.idFunci}>Deletar</button>
             </div>
           </li>
         ))}

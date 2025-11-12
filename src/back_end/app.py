@@ -1,9 +1,19 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import VerificarLogin, carregarLocais, adicionarChamado, carregarChamados, carregarFuncionarios, atualizarFuncionario, adicionar_usuario
+from models import VerificarLogin, carregarLocais, adicionarChamado, carregarChamados, carregarFuncionarios, atualizarFuncionario, adicionar_usuario, deletarFuncionario
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route('/api/funcionarios/<string:idFunci>', methods=['DELETE'])
+def deletar_usuario(idFunci):
+    if not idFunci:
+        return jsonify({'message': 'Erro ao pegar o ID do usuário!'})
+    deletar = deletarFuncionario(idFunci)
+    if deletar:
+        return '', 204
+    else: return jsonify({'message': 'Erro ao tentar excluir usuário!'}), 404
+
 
 @app.route('/api/funcionarios', methods=['POST'])
 def criarFunci():

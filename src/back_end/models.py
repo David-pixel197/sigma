@@ -21,6 +21,21 @@ TABELA_FUNCIONARIOS = 'Funcionario'
 TABELA_LOCAIS = 'Local'
 TABELA_CHAMADOS = 'Chamado'
 
+def deletarFuncionario(id_funci):
+    response = supabase.table(TABELA_FUNCIONARIOS).select('idFunci').eq('idFunci', id_funci).limit(1).execute()
+
+    if len(response.data) > 0:
+        try:
+            delete = supabase.table(TABELA_FUNCIONARIOS).delete().eq('idFunci', id_funci).execute()
+            if len(delete.data) > 0:
+                print(f'O usuário ID {id_funci} foi exluido do banco de dados!')
+                return True
+            else: return False
+        except Exception as e:
+            print('Erro no banco de dados após tentativa de excluir usuário!')
+            return False
+    else: return False
+
 def atualizarFuncionario(id_funci, dados_atualizados):
     dados_update = {}
     get_campos = {'nome', 'email', 'autoridade'}
@@ -69,7 +84,7 @@ def adicionar_usuario(email, nome, senha, getBool):
     ultimo_id = None
     if response_ultimo.data:
         ultimo_id = response_ultimo.data[0]['idFunci']
-    id_funci = criar_id_personalizado_chamado(ultimo_id)
+    id_funci = criar_id_personalizado_funci(ultimo_id)
 
     response = supabase.table(TABELA_FUNCIONARIOS).select('idFunci').eq('idFunci', id_funci).limit(1).execute()
     if len(response.data) > 0:
