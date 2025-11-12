@@ -84,7 +84,7 @@ function Dashboard() {
     setUpdatingChamadoId(idChamado); // Mostra "carregando" no card
 
     const url = MODO_MOCK ? `/mock/chamados/${idChamado}` : `${API_BASE_URL}/chamados/${idChamado}`;
-    const payload = { fk_Funcionario_idFunc: idFunc };
+    const payload = { fk_Funcionario_idFunci: idFunc };
 
     try {
       if (MODO_MOCK) {
@@ -92,7 +92,7 @@ function Dashboard() {
         // Atualiza a lista de chamados no front-end (simulação)
         setChamados(prevChamados =>
           prevChamados.map(c =>
-            c.idChamado === idChamado ? { ...c, fk_Funcionario_idFunc: idFunc } : c
+            c.idChamado === idChamado ? { ...c, fk_Funcionario_idFunci: idFunc } : c
           )
         );
       } else {
@@ -110,6 +110,7 @@ function Dashboard() {
             c.idChamado === idChamado ? chamadoAtualizado : c
           )
         );
+        window.location.reload();
       }
     } catch (err) {
       console.error(err);
@@ -154,6 +155,7 @@ function Dashboard() {
             c.idChamado === chamado.idChamado ? chamadoAtualizado : c
           )
         );
+        window.location.reload();
       }
     } catch (err) {
       console.error(err);
@@ -178,8 +180,8 @@ function Dashboard() {
       if (filtroStatus === 'fechados' && c.aberto) return false;
 
       // Filtro 2: Atribuição (Meus / Não Atribuídos / Todos)
-      if (filtroAtribuicao === 'meus' && c.fk_Funcionario_idFunc !== user?.idFunc) return false;
-      if (filtroAtribuicao === 'nao_atribuidos' && c.fk_Funcionario_idFunc !== null) return false;
+      if (filtroAtribuicao === 'meus' && c.fk_Funcionario_idFunci !== user?.idFunc) return false;
+      if (filtroAtribuicao === 'nao_atribuidos' && c.fk_Funcionario_idFunci !== null) return false;
 
       return true;
     });
@@ -320,13 +322,13 @@ function ChamadoCard({
     dataAbertura,
     horaAbertura,
     aberto,
-    fk_Funcionario_idFunc,
+    fk_Funcionario_idFunci,
   } = chamado;
 
   // Busca o nome do funcionário atribuído
   const funcionarioAtribuido = useMemo(() => {
-    return funcionarios.find(f => f.idFunc === fk_Funcionario_idFunc);
-  }, [funcionarios, fk_Funcionario_idFunc]);
+    return funcionarios.find(f => f.idFunc === fk_Funcionario_idFunci);
+  }, [funcionarios, fk_Funcionario_idFunci]);
 
   // Formata a data/hora
   const dataHoraFormatada = useMemo(() => {
@@ -360,7 +362,7 @@ function ChamadoCard({
   // Verifica se o usuário logado pode alterar o status do chamado.
   // Regra: Ele pode se for admin (autoridade=true) OU
   // se o chamado estiver atribuído a ele (e não for nulo).
-  const podeAlterarStatus = user?.autoridade || (fk_Funcionario_idFunc === user?.idFunc && fk_Funcionario_idFunc !== null);
+  const podeAlterarStatus = user?.autoridade || (fk_Funcionario_idFunci === user?.idFunc && fk_Funcionario_idFunci !== null);
   // --- FIM DA MUDANÇA ---
 
   return (
@@ -398,13 +400,13 @@ function ChamadoCard({
             // ADMIN: Mostra um <select>
             <select
               className="atribuir-select"
-              value={fk_Funcionario_idFunc || 'null'}
+              value={fk_Funcionario_idFunci || 'null'}
               onChange={handleAdminAtribuir}
               disabled={isUpdating}
             >
               <option value="null">--- Ninguém ---</option>
               {funcionarios.map(f => (
-                <option key={f.idFunc} value={f.idFunc}>{f.nome}</option>
+                <option key={f.idFunci} value={f.idFunci}>{f.nome}</option>
               ))}
             </select>
           ) : (

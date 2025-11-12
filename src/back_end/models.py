@@ -21,6 +21,83 @@ TABELA_FUNCIONARIOS = 'Funcionario'
 TABELA_LOCAIS = 'Local'
 TABELA_CHAMADOS = 'Chamado'
 
+def atualizarLocal(id_local, dados_atualizados):
+    dados_update = {}
+    get_campos = {'nome', 'descricao'}
+
+    for campo in get_campos:
+        if campo in dados_atualizados and dados_atualizados[campo] is not None:
+            dados_update[campo] = dados_atualizados[campo]
+    
+    if not dados_update: 
+        print(f'Nenhuma informação válida fornecida para atualizar o funcionário {id_local}.')
+        try:
+             response = supabase.table(TABELA_LOCAIS).select('*').eq('idLocal', id_local).limit(1).execute()
+             return response.data[0] if response.data else None
+        except Exception:
+             return None
+    
+    try:
+        response = supabase.table(TABELA_LOCAIS).update(dados_update).eq('idLocal', id_local).execute()
+        if response.data:
+            print(f'As informações do local {id_local} foi atualizada no banco de dados!')
+            return response.data[0]
+    except Exception as e:
+        print('Falha ao editar local!')
+        return None
+
+def deletarLocal(id_local):
+    response = supabase.table(TABELA_LOCAIS).select('*').eq('idLocal', id_local).limit(1).execute()
+    dados = response.data[0]
+    if len(response.data) > 0:
+        delete = supabase.table(TABELA_LOCAIS).delete().eq('idLocal', id_local).execute()
+        if len(delete.data) > 0:
+            print(f'O local {dados.get('nome')} foi excluido do banco de dados')
+            return True
+        else:
+            print(f'Erro ao tentar deletar o {dados.get('nome')}')
+            return  False
+    else: 
+        print(f'Erro ao tentar deletar o {dados.get('nome')}')
+        return  False
+
+
+def criarLocal(nome, descricao):
+    response_nome = supabase.table(TABELA_LOCAIS).select('nome').eq('nome', nome).limit(1).execute()
+    if len(response_nome.data) > 0:
+        return print('O local já existe no banco de dados!')
+    dados_insert = {
+        'nome': nome,
+        'descricao': descricao
+    }
+    response = supabase.table(TABELA_LOCAIS).insert(dados_insert, count=None).execute()
+    if len(response.data) > 0:
+        print(f'Um novo local chamado {nome} foi adicionado!')
+        return True
+    else: return False
+
+def atualizarChamado(idChamado, dados_atualizados):
+    campos_permitidos = {'fk_Funcionario_idFunci', 'aberto'}
+    dados_filtrados = {k: v for k, v in dados_atualizados.items() if k in campos_permitidos}
+
+    if not dados_filtrados:
+        print(f"Nenhum campo válido fornecido para atualizar o chamado {idChamado}.")
+        try:
+            response = supabase.table(TABELA_CHAMADOS).select('*').eq('idChamado', idChamado).limit(1).execute()
+            return response.data[0] if response.data else None
+        except Exception as e:
+            print("Erro ao buscar chamado:", e)
+            return None
+    
+    try:
+        response = supabase.table(TABELA_CHAMADOS).update(dados_filtrados).eq('idChamado', idChamado).execute()
+        if len(response.data) > 0:
+            return True
+        else: return False
+    except Exception as e:
+        print('Erro ao atualizar o chamado!', e)
+        return False
+
 def deletarFuncionario(id_funci):
     response = supabase.table(TABELA_FUNCIONARIOS).select('idFunci').eq('idFunci', id_funci).limit(1).execute()
 
@@ -100,18 +177,6 @@ def adicionar_usuario(email, nome, senha, getBool):
     return_ = supabase.table(TABELA_FUNCIONARIOS).insert(dados_insert, count=None).execute()
     print(f"Usuário '{nome}' foi adicionado no banco de dados.")
     return True
-
-def adicionarLocais(id_local, nome, descricao):
-    response = supabase.table(TABELA_LOCAIS).select('idLocal').eq('idLocal', id_local).limit(1).execute()
-    if len(response.data) > 0:
-        return print('O local já existe no banco de dados!')
-    dados_insert = {
-        'idLocal': id_local,
-        'nome': nome,
-        'descricao': descricao
-    }
-    supabase.table(TABELA_LOCAIS).insert(dados_insert, count=None).execute()
-    print(f'Local {nome}[{id_local}] foi adicionado no banco de dados')
 
 def VerificarLogin(email, senha):
     response = supabase.table(TABELA_FUNCIONARIOS).select('*').eq('email', email).limit(1).execute()

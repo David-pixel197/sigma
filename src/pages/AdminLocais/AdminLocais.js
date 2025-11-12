@@ -180,7 +180,7 @@ function AdminLocais() {
           <li key={local.idLocal} className="admin-list-item">
             <div className="item-info">
               <strong>{local.nome}</strong>
-              <small>{local.descricao.substring(0, 100)}...</small>
+              <small>{local.descricao ? local.descricao.substring(0, 100) + '...' : 'Atualize a página'}</small>
             </div>
             <div className="item-actions">
               <button className="edit-button" onClick={() => handleEdit(local)}>Editar</button>

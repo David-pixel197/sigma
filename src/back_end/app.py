@@ -1,9 +1,67 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import VerificarLogin, carregarLocais, adicionarChamado, carregarChamados, carregarFuncionarios, atualizarFuncionario, adicionar_usuario, deletarFuncionario
+from models import VerificarLogin, carregarLocais, adicionarChamado, carregarChamados, carregarFuncionarios, atualizarFuncionario, adicionar_usuario, deletarFuncionario, atualizarChamado, criarLocal, deletarLocal, atualizarLocal
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route('/api/locais/<string:idLocal>', methods=['PUT'])
+def att_Local(idLocal):
+    get_local = request.get_json()
+    if not get_local:
+        return jsonify({"message": "Nenhuma informação foi recebida"}), 404
+
+    try:
+        update_local = atualizarLocal(idLocal, get_local)
+        if update_local:
+           return jsonify(update_local), 200 
+        else: return jsonify({'message': 'Erro ao atualizar o local!'}), 406 
+    except Exception as e:
+        return jsonify({'message': 'Erro ao atualizar o local!'}), 408 
+
+@app.route('/api/locais/<int:idLocal>', methods=['DELETE'])
+def delete_local(idLocal):
+    try:
+        delete = deletarLocal(idLocal)
+        if delete:
+            return '', 200
+        else: return jsonify({'message': 'Erro ao tentar excluir o local!'}), 406
+    except Exception as e:
+        print(f"Erro no processamento do local: {e}")
+        return jsonify({"message": "Erro interno do servidor."}), 500
+
+@app.route('/api/locais', methods=['POST'])
+def criar_local():
+    get_dados = request.get_json()
+    if not get_dados or 'nome' not in get_dados or 'descricao' not in get_dados:
+        return jsonify({'message': 'Preencha todos os campos!'}), 404
+    nome = get_dados['nome']
+    descricao = get_dados['descricao']
+    try: 
+        local = criarLocal(nome, descricao)
+        if local:
+            return jsonify({'message': 'Local adicionado no banco de dados!'}), 201
+        else: return jsonify({'message': 'Erro ao tentar criar o local!'}), 406
+    except Exception as e:
+        print(f"Erro no processamento do local: {e}")
+        return jsonify({"message": "Erro interno do servidor."}), 500
+
+@app.route('/api/chamados/<string:idChamado>', methods=['PATCH'])
+def attChamado(idChamado):
+    dados = request.get_json()
+    print(dados)
+    if not dados:
+        return jsonify({'message': 'Nenhuma informação foi recebida!'}), 404
+
+    try:
+        chamado = atualizarChamado(idChamado, dados)
+        if chamado:
+            return jsonify(chamado), 200
+        else: return jsonify({'message': 'Erro ao tentar atualizar o chamado!'}), 404
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Erro ao tentar atualizar o chamado!'}), 406
+
 
 @app.route('/api/funcionarios/<string:idFunci>', methods=['DELETE'])
 def deletar_usuario(idFunci):
