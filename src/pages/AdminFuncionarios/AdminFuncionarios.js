@@ -124,7 +124,7 @@ function AdminFuncionarios() {
   };
 
   const handleDelete = async (idFunci) => {
-    if (idFunci === user?.idFunc) {
+    if (idFunci === user?.idFunci) {
       alert('Você não pode deletar a si mesmo.');
       return;
     }

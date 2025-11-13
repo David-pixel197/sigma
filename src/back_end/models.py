@@ -91,9 +91,9 @@ def atualizarChamado(idChamado, dados_atualizados):
     
     try:
         response = supabase.table(TABELA_CHAMADOS).update(dados_filtrados).eq('idChamado', idChamado).execute()
-        if len(response.data) > 0:
-            return True
-        else: return False
+        if response.data:
+            return response.data[0]
+        else: return None
     except Exception as e:
         print('Erro ao atualizar o chamado!', e)
         return False

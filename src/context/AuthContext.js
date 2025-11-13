@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
                 const data = JSON.parse(storedData);
                 
                 // Verifica se os dados são válidos (usa a chave padronizada 'idFunc')
-                if (data.isLoggedIn && data.user && data.user.idFunc) {
+                if (data.isLoggedIn && data.user && data.user.idFunci) {
                     setIsLoggedIn(true);
                     setUser(data.user); 
                 }
@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
     // --- INÍCIO DA CORREÇÃO ---
 
     // 1. Verifica se o usuário é válido (aceita idFunc do MOCK ou idFunci da API REAL)
-    if (!loggedInUser || (!loggedInUser.idFunc && !loggedInUser.idFunci)) {
+    if (!loggedInUser || !loggedInUser.idFunci) {
       console.error("Tentativa de login falhou: objeto de usuário inválido", loggedInUser);
       return;
     }
@@ -48,7 +48,7 @@ export function AuthProvider({ children }) {
     // 2. Cria um objeto padronizado (o app sempre usará 'idFunc' internamente)
     //    Ele pega o valor de loggedInUser.idFunc OU loggedInUser.idFunci
     const standardizedUser = {
-      idFunc: loggedInUser.idFunc || loggedInUser.idFunci,
+      idFunci: loggedInUser.idFunci,
       nome: loggedInUser.nome,
       autoridade: loggedInUser.autoridade
     };

@@ -1,16 +1,16 @@
 [
   {
-    "idFunc": "david@empresa.com",
+    "idFunci": "david@empresa.com",
     "nome": "David (Admin)",
     "autoridade": true
   },
   {
-    "idFunc": "ana@empresa.com",
+    "idFunci": "ana@empresa.com",
     "nome": "Ana Supervisora",
     "autoridade": true
   },
   {
-    "idFunc": "bruno@empresa.com",
+    "idFunci": "bruno@empresa.com",
     "nome": "Bruno Técnico",
     "autoridade": false
   }

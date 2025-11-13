@@ -180,7 +180,7 @@ function Dashboard() {
       if (filtroStatus === 'fechados' && c.aberto) return false;
 
       // Filtro 2: Atribuição (Meus / Não Atribuídos / Todos)
-      if (filtroAtribuicao === 'meus' && c.fk_Funcionario_idFunci !== user?.idFunc) return false;
+      if (filtroAtribuicao === 'meus' && c.fk_Funcionario_idFunci !== user?.idFunci) return false;
       if (filtroAtribuicao === 'nao_atribuidos' && c.fk_Funcionario_idFunci !== null) return false;
 
       return true;
@@ -327,7 +327,7 @@ function ChamadoCard({
 
   // Busca o nome do funcionário atribuído
   const funcionarioAtribuido = useMemo(() => {
-    return funcionarios.find(f => f.idFunc === fk_Funcionario_idFunci);
+    return funcionarios.find(f => f.idFunci === fk_Funcionario_idFunci);
   }, [funcionarios, fk_Funcionario_idFunci]);
 
   // Formata a data/hora
@@ -349,7 +349,7 @@ function ChamadoCard({
   // Handler para o botão "Atribuir a mim"
   const handleAtribuirParaMim = () => {
     if (user) {
-      onAtribuir(idChamado, user.idFunc);
+      onAtribuir(idChamado, user.idFunci);
     }
   };
 
@@ -362,7 +362,7 @@ function ChamadoCard({
   // Verifica se o usuário logado pode alterar o status do chamado.
   // Regra: Ele pode se for admin (autoridade=true) OU
   // se o chamado estiver atribuído a ele (e não for nulo).
-  const podeAlterarStatus = user?.autoridade || (fk_Funcionario_idFunci === user?.idFunc && fk_Funcionario_idFunci !== null);
+  const podeAlterarStatus = user?.autoridade || (fk_Funcionario_idFunci === user?.idFunci && fk_Funcionario_idFunci !== null);
   // --- FIM DA MUDANÇA ---
 
   return (

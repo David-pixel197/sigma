@@ -8,7 +8,7 @@
     "horaFechamento": null,
     "aberto": true,
     "fk_Local_idLocal": "101",
-    "fk_Funcionario_idFunc": "f123"
+    "fk_Funcionario_idFunci": "f123"
   },
   {
     "idChamado": "c002",
@@ -19,7 +19,7 @@
     "horaFechamento": null,
     "aberto": true,
     "fk_Local_idLocal": "102",
-    "fk_Funcionario_idFunc": null
+    "fk_Funcionario_idFunci": null
   },
   {
     "idChamado": "c003",
@@ -30,6 +30,6 @@
     "horaFechamento": "16:00:00",
     "aberto": false,
     "fk_Local_idLocal": "300",
-    "fk_Funcionario_idFunc": "f456"
+    "fk_Funcionario_idFunci": "f456"
   }
 ]
