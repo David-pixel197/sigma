@@ -110,7 +110,7 @@ function Dashboard() {
             c.idChamado === idChamado ? chamadoAtualizado : c
           )
         );
-        window.location.reload();
+        //window.location.reload();
       }
     } catch (err) {
       console.error(err);
@@ -155,7 +155,7 @@ function Dashboard() {
             c.idChamado === chamado.idChamado ? chamadoAtualizado : c
           )
         );
-        window.location.reload();
+        //window.location.reload();
       }
     } catch (err) {
       console.error(err);

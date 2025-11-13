@@ -73,8 +73,8 @@ def criarLocal(nome, descricao):
     response = supabase.table(TABELA_LOCAIS).insert(dados_insert, count=None).execute()
     if len(response.data) > 0:
         print(f'Um novo local chamado {nome} foi adicionado!')
-        return True
-    else: return False
+        return response.data[0]
+    else: return []
 
 def atualizarChamado(idChamado, dados_atualizados):
     campos_permitidos = {'fk_Funcionario_idFunci', 'aberto'}
@@ -176,7 +176,7 @@ def adicionar_usuario(email, nome, senha, getBool):
     }
     return_ = supabase.table(TABELA_FUNCIONARIOS).insert(dados_insert, count=None).execute()
     print(f"Usuário '{nome}' foi adicionado no banco de dados.")
-    return True
+    return return_.data[0]
 
 def VerificarLogin(email, senha):
     response = supabase.table(TABELA_FUNCIONARIOS).select('*').eq('email', email).limit(1).execute()

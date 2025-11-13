@@ -40,7 +40,7 @@ def criar_local():
     try: 
         local = criarLocal(nome, descricao)
         if local:
-            return jsonify({'message': 'Local adicionado no banco de dados!'}), 201
+            return jsonify(local), 201
         else: return jsonify({'message': 'Erro ao tentar criar o local!'}), 406
     except Exception as e:
         print(f"Erro no processamento do local: {e}")
@@ -84,8 +84,8 @@ def criarFunci():
     autoridade = get_credenciais['autoridade']
     try:
         funci = adicionar_usuario(email, nome, senha, autoridade)
-        if funci == True:
-            return jsonify({"message": "Usuário criado com sucesso!"}), 201
+        if funci:
+            return jsonify(funci), 201
         else: return jsonify({"message": "Erro, não foi possivel adicionar o usuário!"}), 401
 
     except Exception as e:
